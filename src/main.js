@@ -1,6 +1,8 @@
 import { appWindow } from '@tauri-apps/api/window';
 import kaplay from 'kaplay'
 import { makeBackground } from './utils';
+import { SCALE_FACTOR } from './constants';
+import { makePlayer } from './player';
 
 const k = kaplay({
     width: 1280,
@@ -35,10 +37,35 @@ addEventListener("keydown", async (key) => {
 k.scene("start", async () => {
     makeBackground(k);
 
-})
+    const map = k.add([
+        k.sprite("background"),
+        k.pos(0,0),
+        k.scale(SCALE_FACTOR),
+    ]);
+
+   const clouds = map.add([
+        k.sprite("clouds"),
+        k.pos(),
+        {
+            speed: 5,
+
+        },
+    ]);
+
+    clouds.onUpdate(() => {
+        clouds.move(clouds.speed, 0);
+        if (clouds.pos.x > 700) {
+            clouds.pos.x = -500;
+        }
+    });
+    map.add([k.sprite("obstacles"), k.pos()]);
+
+    const player = k.add(makePlayer(k));
+    player.pos = k.vec2(k.center().x -350, k.center().y + 56);
+});
 
 k.scene("main", async () => {
     
-})
+});
 
 k.go("start");
