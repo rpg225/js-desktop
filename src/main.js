@@ -15,7 +15,7 @@ const k = kaplay({
     scale: 2,
 });
 
-k.loadSprite("kriby","./kriby.png");
+k.loadSprite("gooby","./gooby.png");
 k.loadSprite("obstacles","./obstacles.png");
 k.loadSprite("background","./background.png");
 k.loadSprite("clouds","./clouds.png");
